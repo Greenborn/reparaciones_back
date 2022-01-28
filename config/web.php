@@ -67,7 +67,7 @@ $config = [
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'password-reset', 'pluralize' => false],
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'resend-email-verification','pluralize' => false],
               
-              
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-obras','pluralize' => false],
             ],
         ],
     ],
