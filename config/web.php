@@ -67,22 +67,7 @@ $config = [
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'password-reset', 'pluralize' => false],
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'resend-email-verification','pluralize' => false],
               
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-branch', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-category', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-enterprice', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-price', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-product-category', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-products', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-vendor', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-news', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-incremental-stats', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-enterprice-commercial-item', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'public-enterprice-item', 'pluralize' => false ],
-
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-enterprice', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-branch', 'pluralize' => false ],
-              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-category', 'pluralize' => false ],
-              'products_by_price' => 'public-search-products/get-by-price',
+              
             ],
         ],
     ],
