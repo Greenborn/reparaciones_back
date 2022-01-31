@@ -68,6 +68,11 @@ $config = [
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'resend-email-verification','pluralize' => false],
               
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-obras','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-nota','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-imagen','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-estado','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-documento','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-categoria','pluralize' => false],
             ],
         ],
     ],
