@@ -112,4 +112,8 @@ class Nota extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Obras::className(), ['id' => 'obra_id']);
     }
+
+    public function extraFields() {
+        return [ 'categoria' ];
+    }
 }
