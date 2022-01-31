@@ -114,6 +114,6 @@ class Nota extends \yii\db\ActiveRecord
     }
 
     public function extraFields() {
-        return [ 'categoria' ];
+        return [ 'categoria', 'obra' ];
     }
 }
