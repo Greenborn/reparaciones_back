@@ -73,6 +73,7 @@ $config = [
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-estado','pluralize' => false],
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-documento','pluralize' => false],
               [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-categoria','pluralize' => false],
+              [ 'class' => 'yii\rest\UrlRule', 'controller' => 'private-tipo-nota','pluralize' => false],
             ],
         ],
     ],

@@ -14,12 +14,14 @@ use Yii;
  * @property int $obra_id
  * @property string|null $vencimiento
  * @property int|null $orden
+ * @property int|null $tipo_nota_id
  *
- * @property Documents[] $documents
- * @property Images[] $images
+ * @property Documentos[] $documentos
+ * @property Imagenes[] $imagenes
  * @property Categoria $categoria
  * @property Estado $estado
  * @property Obras $obra
+ * @property TipoNota $tipoNota
  */
 class Nota extends \yii\db\ActiveRecord
 {
@@ -39,11 +41,12 @@ class Nota extends \yii\db\ActiveRecord
         return [
             [['nota', 'categoria_id', 'estado_id', 'obra_id'], 'required'],
             [['nota'], 'string'],
-            [['categoria_id', 'estado_id', 'obra_id', 'orden'], 'integer'],
+            [['categoria_id', 'estado_id', 'obra_id', 'orden', 'tipo_nota_id'], 'integer'],
             [['vencimiento'], 'safe'],
             [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_id' => 'id']],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['obra_id'], 'exist', 'skipOnError' => true, 'targetClass' => Obras::className(), 'targetAttribute' => ['obra_id' => 'id']],
+            [['tipo_nota_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoNota::className(), 'targetAttribute' => ['tipo_nota_id' => 'id']],
         ];
     }
 
@@ -60,27 +63,28 @@ class Nota extends \yii\db\ActiveRecord
             'obra_id' => 'Obra ID',
             'vencimiento' => 'Vencimiento',
             'orden' => 'Orden',
+            'tipo_nota_id' => 'Tipo Nota ID',
         ];
     }
 
     /**
-     * Gets query for [[Documents]].
+     * Gets query for [[Documentos]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDocuments()
+    public function getDocumentos()
     {
-        return $this->hasMany(Documents::className(), ['id_nota' => 'id']);
+        return $this->hasMany(Documentos::className(), ['id_nota' => 'id']);
     }
 
     /**
-     * Gets query for [[Images]].
+     * Gets query for [[Imagenes]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getImages()
+    public function getImagenes()
     {
-        return $this->hasMany(Images::className(), ['id_nota' => 'id']);
+        return $this->hasMany(Imagenes::className(), ['id_nota' => 'id']);
     }
 
     /**
@@ -113,7 +117,17 @@ class Nota extends \yii\db\ActiveRecord
         return $this->hasOne(Obras::className(), ['id' => 'obra_id']);
     }
 
+    /**
+     * Gets query for [[TipoNota]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoNota()
+    {
+        return $this->hasOne(TipoNota::className(), ['id' => 'tipo_nota_id']);
+    }
+
     public function extraFields() {
-        return [ 'categoria', 'obra' ];
+        return [ 'categoria', 'obra', 'tipoNota' ];
     }
 }
