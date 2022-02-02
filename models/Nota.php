@@ -128,6 +128,6 @@ class Nota extends \yii\db\ActiveRecord
     }
 
     public function extraFields() {
-        return [ 'categoria', 'obra', 'tipoNota' ];
+        return [ 'categoria', 'obra', 'tipoNota', 'imagenes' ];
     }
 }
