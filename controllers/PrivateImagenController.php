@@ -4,7 +4,7 @@ namespace app\controllers;
 use Yii;
 use yii\rest\ActiveController;
 
-class PrivateImageController extends BaseController {
+class PrivateImagenController extends BaseController {
 
     public function actions(){
         $actions = parent::actions();
