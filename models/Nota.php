@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use  app\models\Imagenes;
 /**
  * This is the model class for table "nota".
  *
@@ -129,5 +129,37 @@ class Nota extends \yii\db\ActiveRecord
 
     public function extraFields() {
         return [ 'categoria', 'obra', 'tipoNota', 'imagenes' ];
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        $params = Yii::$app->getRequest()->getBodyParams();
+        if (isset($params['images'])){
+            if ($insert) {
+                for ($c=0; $c < count($params['images']); $c++){
+                    $file_name = 'public/images/'.$date->getTimestamp().$params['images'][$c]['name'];
+                    $this->base64_to_file($params['images'][$c]['file'], $file_name);
+                    $img                = new Imagenes();
+                    $img->id_nota       = $this->id;
+                    $img->url           = $file_name;
+                    $img->save(false);
+                }
+            }
+        }
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
+    private function base64_to_file($base64_string, $output_file) {
+        // open the output file for writing
+        $ifp = fopen( $output_file, 'wb' ); 
+    
+        $data = explode( ',', $base64_string );
+    
+        // we could add validation here with ensuring count( $data ) > 1
+        fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+    
+        // clean up the file resource
+        fclose( $ifp ); 
+    
+        return $output_file; 
     }
 }
