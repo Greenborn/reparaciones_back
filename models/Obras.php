@@ -75,7 +75,7 @@ class Obras extends \yii\db\ActiveRecord
         return [ 'notas', 'imagen' ];
     }
 
-    public function afterSave($insert, $changedAttributes) {
+    public function beforeSave($insert) {
         $params = Yii::$app->getRequest()->getBodyParams();
         $date   = new \DateTime();
         
@@ -107,7 +107,7 @@ class Obras extends \yii\db\ActiveRecord
                 $this->imagen_id = $img->id;
             }
         }
-        return parent::afterSave($insert, $changedAttributes);
+        return parent::beforeSave($insert);
     }
 
     private function base64_to_file($base64_string, $output_file) {
