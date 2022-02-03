@@ -95,9 +95,12 @@ class Obras extends \yii\db\ActiveRecord
             if ($imagen !== NULL){
                 if(file_exists($imagen->url)){
                     unlink($imagen->url);
-                    $imagen->delete();
                 }
+                $this->imagen_id = NULL;
+                $this->save(false);
+                $imagen->delete();
             }
+            
             if (isset($params['imagen_data'])){
                 $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
                 $this->base64_to_file($params['imagen_data']['file'], $file_name);
