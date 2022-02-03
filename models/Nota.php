@@ -133,6 +133,7 @@ class Nota extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes) {
         $params = Yii::$app->getRequest()->getBodyParams();
+        $date   = new \DateTime();
         if (isset($params['images'])){
             if ($insert) {
                 for ($c=0; $c < count($params['images']); $c++){
