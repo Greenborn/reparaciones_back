@@ -84,7 +84,6 @@ class Obras extends \yii\db\ActiveRecord
                 $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
                 $this->base64_to_file($params['imagen_data']['file'], $file_name);
                 $img                = new Imagenes();
-                $img->id_nota       = $this->id;
                 $img->url           = $file_name;
                 $img->save(false);
 
@@ -103,7 +102,6 @@ class Obras extends \yii\db\ActiveRecord
                 $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
                 $this->base64_to_file($params['imagen_data']['file'], $file_name);
                 $img                = new Imagenes();
-                $img->id_nota       = $this->id;
                 $img->url           = $file_name;
                 $img->save(false);
 
