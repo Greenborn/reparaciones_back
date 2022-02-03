@@ -29,7 +29,7 @@ class Imagenes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url', 'id_nota'], 'required'],
+            [['url'], 'required'],
             [['url'], 'string'],
             [['id_nota'], 'integer'],
             [['id_nota'], 'exist', 'skipOnError' => true, 'targetClass' => Nota::className(), 'targetAttribute' => ['id_nota' => 'id']],
