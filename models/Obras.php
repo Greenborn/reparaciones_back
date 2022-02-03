@@ -74,4 +74,52 @@ class Obras extends \yii\db\ActiveRecord
     public function extraFields() {
         return [ 'notas', 'imagen' ];
     }
+
+    public function afterSave($insert, $changedAttributes) {
+        $params = Yii::$app->getRequest()->getBodyParams();
+        $date   = new \DateTime();
+        
+        if ($insert) {
+            if (isset($params['imagen_data'])){
+                $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
+                $this->base64_to_file($params['imagen_data']['file'], $file_name);
+                $img                = new Imagenes();
+                $img->id_nota       = $this->id;
+                $img->url           = $file_name;
+                $img->save(false);
+            }
+        } else {
+            $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
+            if ($imagen !== NULL){
+                if(file_exists($imagen->url)){
+                    unlink($imagen->url);
+                    $imagen->delete();
+                }
+            }
+            if (isset($params['imagen_data'])){
+                $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
+                $this->base64_to_file($params['imagen_data']['file'], $file_name);
+                $img                = new Imagenes();
+                $img->id_nota       = $this->id;
+                $img->url           = $file_name;
+                $img->save(false);
+            }
+        }
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
+    private function base64_to_file($base64_string, $output_file) {
+        // open the output file for writing
+        $ifp = fopen( $output_file, 'wb' ); 
+    
+        $data = explode( ',', $base64_string );
+    
+        // we could add validation here with ensuring count( $data ) > 1
+        fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+    
+        // clean up the file resource
+        fclose( $ifp ); 
+    
+        return $output_file; 
+    }
 }
