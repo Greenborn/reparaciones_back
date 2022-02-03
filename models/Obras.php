@@ -88,7 +88,6 @@ class Obras extends \yii\db\ActiveRecord
                 $img->save(false);
 
                 $this->imagen_id = $img->id;
-                $this->save(false);
             }
         } else {
             $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
@@ -106,7 +105,6 @@ class Obras extends \yii\db\ActiveRecord
                 $img->save(false);
 
                 $this->imagen_id = $img->id;
-                $this->save(false);
             }
         }
         return parent::afterSave($insert, $changedAttributes);
