@@ -92,10 +92,7 @@ class Obras extends \yii\db\ActiveRecord
             }
         } else {
             $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
-            if ($imagen !== NULL){
-                if(file_exists($imagen->url)){
-                    unlink($imagen->url);
-                }
+            if ($imagen != NULL){
                 $this->imagen_id = NULL;
                 $this->save(false);
                 $imagen->delete();
