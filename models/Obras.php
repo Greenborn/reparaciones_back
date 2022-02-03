@@ -10,6 +10,10 @@ use Yii;
  * @property int $id
  * @property string $nombre_alias
  * @property int $habilitada
+ * @property int|null $imagen_id
+ *
+ * @property Nota[] $notas
+ * @property Imagenes $imagen
  */
 class Obras extends \yii\db\ActiveRecord
 {
@@ -28,8 +32,9 @@ class Obras extends \yii\db\ActiveRecord
     {
         return [
             [['nombre_alias', 'habilitada'], 'required'],
-            [['habilitada'], 'integer'],
+            [['habilitada', 'imagen_id'], 'integer'],
             [['nombre_alias'], 'string', 'max' => 255],
+            [['imagen_id'], 'exist', 'skipOnError' => true, 'targetClass' => Imagenes::className(), 'targetAttribute' => ['imagen_id' => 'id']],
         ];
     }
 
@@ -42,6 +47,31 @@ class Obras extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre_alias' => 'Nombre Alias',
             'habilitada' => 'Habilitada',
+            'imagen_id' => 'Imagen ID',
         ];
+    }
+
+    /**
+     * Gets query for [[Notas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNotas()
+    {
+        return $this->hasMany(Nota::className(), ['obra_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Imagen]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImagen()
+    {
+        return $this->hasOne(Imagenes::className(), ['id' => 'imagen_id']);
+    }
+
+    public function extraFields() {
+        return [ 'notas', 'imagen' ];
     }
 }
