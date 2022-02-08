@@ -77,10 +77,11 @@ class Obras extends \yii\db\ActiveRecord
 
     public function beforeSave($insert) {
         $params = Yii::$app->getRequest()->getBodyParams();
-        $date   = new \DateTime();
-        
-        if ($insert) {
-            if (isset($params['imagen_data'])){
+
+        if (isset($params['imagen_data'])){
+            $date   = new \DateTime();
+            
+            if ($insert) {
                 $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
                 $this->base64_to_file($params['imagen_data']['file'], $file_name);
                 $img                = new Imagenes();
@@ -88,16 +89,14 @@ class Obras extends \yii\db\ActiveRecord
                 $img->save(false);
 
                 $this->imagen_id = $img->id;
-            }
-        } else {
-            $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
-            if ($imagen != NULL){
-                $this->imagen_id = NULL;
-                $this->save(false);
-                $imagen->delete();
-            }
-            
-            if (isset($params['imagen_data'])){
+            } else {
+                $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
+                if ($imagen != NULL){
+                    $this->imagen_id = NULL;
+                    $this->save(false);
+                    $imagen->delete();
+                }
+                
                 $file_name = 'public/images/'.$date->getTimestamp().$params['imagen_data']['name'];
                 $this->base64_to_file($params['imagen_data']['file'], $file_name);
                 $img                = new Imagenes();
@@ -107,6 +106,7 @@ class Obras extends \yii\db\ActiveRecord
                 $this->imagen_id = $img->id;
             }
         }
+
         return parent::beforeSave($insert);
     }
 
