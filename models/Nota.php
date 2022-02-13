@@ -135,15 +135,13 @@ class Nota extends \yii\db\ActiveRecord
         $params = Yii::$app->getRequest()->getBodyParams();
         $date   = new \DateTime();
         if (isset($params['images'])){
-            if ($insert) {
-                for ($c=0; $c < count($params['images']); $c++){
-                    $file_name = 'public/images/'.$date->getTimestamp().$params['images'][$c]['name'];
-                    $this->base64_to_file($params['images'][$c]['file'], $file_name);
-                    $img                = new Imagenes();
-                    $img->id_nota       = $this->id;
-                    $img->url           = $file_name;
-                    $img->save(false);
-                }
+            for ($c=0; $c < count($params['images']); $c++){
+                $file_name = 'public/images/'.$date->getTimestamp().$params['images'][$c]['name'];
+                $this->base64_to_file($params['images'][$c]['file'], $file_name);
+                $img                = new Imagenes();
+                $img->id_nota       = $this->id;
+                $img->url           = $file_name;
+                $img->save(false);
             }
         }
         return parent::afterSave($insert, $changedAttributes);
