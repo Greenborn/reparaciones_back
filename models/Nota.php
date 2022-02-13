@@ -136,6 +136,9 @@ class Nota extends \yii\db\ActiveRecord
         $date   = new \DateTime();
         if (isset($params['images'])){
             for ($c=0; $c < count($params['images']); $c++){
+                if (isset($params['images'][$c]['fromnota'])){
+                    continue;
+                }
                 $file_name = 'public/images/'.$date->getTimestamp().$params['images'][$c]['name'];
                 $this->base64_to_file($params['images'][$c]['file'], $file_name);
                 $img                = new Imagenes();
