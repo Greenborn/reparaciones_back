@@ -57,6 +57,39 @@ class Imagenes extends \yii\db\ActiveRecord
         return true;
     }
 
+    public function beforeSave($insert) {
+        if (!$insert){
+            $params = Yii::$app->getRequest()->getBodyParams();
+            $date   = new \DateTime();
+            if (isset($params['base64_edit'])){
+                if (!empty($this->url) && file_exists($this->url)) {
+                    unlink($this->url);
+                    // echo 'se elimnó la img';
+                }
+
+                $file_name = $this->url;
+                $this->base64_to_file($params['base64_edit'], $file_name);
+            }
+        }
+        
+        return parent::beforeSave($insert);
+    }
+
+    private function base64_to_file($base64_string, $output_file) {
+        // open the output file for writing
+        $ifp = fopen( $output_file, 'wb' ); 
+    
+        $data = explode( ',', $base64_string );
+    
+        // we could add validation here with ensuring count( $data ) > 1
+        fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+    
+        // clean up the file resource
+        fclose( $ifp ); 
+    
+        return $output_file; 
+    }
+
     /**
      * Gets query for [[Nota]].
      *
