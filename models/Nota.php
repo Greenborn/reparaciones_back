@@ -156,11 +156,11 @@ class Nota extends \yii\db\ActiveRecord
                 }
                 $file_name = 'public/documents/'.$date->getTimestamp().$params['documents'][$c]['name'];
                 $this->base64_to_file($params['documents'][$c]['file'], $file_name);
-                $img                = new Documentos();
-                $img->id_nota       = $this->id;
-                $img->url           = $file_name;
+                $doc                = new Documentos();
+                $doc->id_nota       = $this->id;
+                $doc->url           = $file_name;
                 $doc->nombre = $params['documents'][$c]['name'];
-                $img->save(false);
+                $doc->save(false);
             }
         }
         return parent::afterSave($insert, $changedAttributes);
