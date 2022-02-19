@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use  app\models\Imagenes;
+use  app\models\Documentos;
 /**
  * This is the model class for table "nota".
  *
@@ -128,7 +129,7 @@ class Nota extends \yii\db\ActiveRecord
     }
 
     public function extraFields() {
-        return [ 'categoria', 'obra', 'tipoNota', 'imagenes' ];
+        return [ 'categoria', 'obra', 'tipoNota', 'imagenes', 'documentos' ];
     }
 
     public function afterSave($insert, $changedAttributes) {
@@ -144,6 +145,21 @@ class Nota extends \yii\db\ActiveRecord
                 $img                = new Imagenes();
                 $img->id_nota       = $this->id;
                 $img->url           = $file_name;
+                $img->save(false);
+            }
+        }
+
+        if (isset($params['documents'])){
+            for ($c=0; $c < count($params['documents']); $c++){
+                if (isset($params['documents'][$c]['fromnota'])){
+                    continue;
+                }
+                $file_name = 'public/documents/'.$date->getTimestamp().$params['documents'][$c]['name'];
+                $this->base64_to_file($params['documents'][$c]['file'], $file_name);
+                $img                = new Documentos();
+                $img->id_nota       = $this->id;
+                $img->url           = $file_name;
+                $doc->nombre = $params['documents'][$c]['nombre'];
                 $img->save(false);
             }
         }
