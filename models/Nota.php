@@ -159,7 +159,7 @@ class Nota extends \yii\db\ActiveRecord
                 $img                = new Documentos();
                 $img->id_nota       = $this->id;
                 $img->url           = $file_name;
-                $doc->nombre = $params['documents'][$c]['nombre'];
+                $doc->nombre = $params['documents'][$c]['name'];
                 $img->save(false);
             }
         }
