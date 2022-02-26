@@ -32,27 +32,22 @@ class ChangePasswordAction extends UpdateAction {
                 ];
             }else{
                 $transaction->rollBack();
-                throw new BadRequestHttpException('Hubo un problema con la nueva contraseña');
-                // $response->data = [
-                //     'status' => false,
-                //     'message' => 'Error no se pudo cambiar la contraseña!',
-                // ];                   
+                $response->data = [
+                     'status' => false,
+                     'message' => 'Error no se pudo cambiar la contraseña!',
+                ];                   
             }
         }else{
-            // $transaction->rollBack();
-          throw new BadRequestHttpException('Contraseña equivocada');
-            // $response->data = [
-            //     'status' => false,
-            //     'message' => 'Error no se pudo cambiar la contraseña!',
-            // ];                   
+          $response->data = [
+               'status' => false,
+               'message' => '¡Contraseña equivocada!',
+          ];                   
         }
       } else{
-        // $transaction->rollBack();
-        throw new BadRequestHttpException('Faltan datos');
-        // $response->data = [
-        //     'status' => false,
-        //     'message' => 'Error no se pudo cambiar la contraseña!',
-        // ];                   
+        $response->data = [
+             'status' => false,
+             'message' => 'Faltan datos',
+        ];                   
     }
  }
 }
