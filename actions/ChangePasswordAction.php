@@ -11,7 +11,10 @@ class ChangePasswordAction extends UpdateAction {
 
     public function run($id) {
       $params = Yii::$app->getRequest()->getBodyParams();
-      $user = User::find()->where(['id' => $id])->one();
+
+      $authHeader = getallheaders()['Authorization'];
+      $authHeader = explode('Bearer ',$authHeader)[1]; 
+      $user = User::find()->where(['access_token' => $authHeader])->one();
 
       $old_password = isset($params['old_password']) ? $params['old_password'] : null;
       $new_password = isset($params['new_password']) ? $params['new_password'] : null;
