@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Nota;
 
 /**
  * This is the model class for table "obras".
@@ -73,6 +74,21 @@ class Obras extends \yii\db\ActiveRecord
 
     public function extraFields() {
         return [ 'notas', 'imagen' ];
+    }
+
+    public function beforeDelete() {
+        //antes de borrar, se debe eliminar toda la informacion asociada a la misma
+        $notas_borrar = Nota::find()->where([ 'obra_id' => $this->id ])->all();
+
+        if ( $notas_borrar !== NULL ){
+            for ( $c=0; $c < count($notas_borrar); $c ++ ){
+                if (!$notas_borrar[$c]->delete()){
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public function beforeSave($insert) {

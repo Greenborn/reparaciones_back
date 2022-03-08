@@ -48,6 +48,15 @@ class Documentos extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeDelete() {
+        if (!empty($this->url) && file_exists($this->url)) {
+            unlink($this->url);
+            // echo 'se elimnó la img';
+        }
+
+        return true;
+    }
+
     /**
      * Gets query for [[Nota]].
      *

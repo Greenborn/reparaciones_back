@@ -68,6 +68,31 @@ class Nota extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeDelete() {
+        //se buscan todas las imagenes asociadas y se eliminan
+        $imgs = Imagenes::find()->where( ['id_nota' => $this->id ] )->all();
+
+        if ($imgs !== NULL){
+            for ($c=0; $c<count($imgs); $c++){
+                if (!$imgs[$c]->delete()){
+                    return false;
+                }
+            }
+        }
+
+        //Se buscan todos los archivos y se eliminan
+        $archivos = Documentos::find()->where([ 'id_nota' => $this->id ])->all();
+        if ($archivos !== NULL){
+            for($c = 0; $c < count($archivos); $c++){
+                if (!$archivos[$c]->delete()){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Gets query for [[Documentos]].
      *

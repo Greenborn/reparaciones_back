@@ -11,7 +11,7 @@ class ChangePasswordAction extends UpdateAction {
 
     public function run($id) {
       $params = Yii::$app->getRequest()->getBodyParams();
-
+      
       $authHeader = getallheaders()['Authorization'];
       $authHeader = explode('Bearer ',$authHeader)[1]; 
       $user = User::find()->where(['access_token' => $authHeader])->one();
