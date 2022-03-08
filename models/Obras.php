@@ -123,6 +123,15 @@ class Obras extends \yii\db\ActiveRecord
             }
         }
 
+        if (isset($params['no_image']) && $params['no_image']){ //si se especifica el parametro no_image y es true, hay que borrar la imagen asignada a la obra
+            $imagen = Imagenes::find()->where(['id' => $this->imagen_id])->one();
+                if ($imagen != NULL){
+                    $this->imagen_id = NULL;
+                    $this->save(false);
+                    $imagen->delete();
+                }
+        }
+
         return parent::beforeSave($insert);
     }
 
