@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Nota;
 
 /**
  * This is the model class for table "tipo_nota".
@@ -54,5 +55,15 @@ class TipoNota extends \yii\db\ActiveRecord
     public function getNotas()
     {
         return $this->hasMany(Nota::className(), ['tipo_nota_id' => 'id']);
+    }
+
+    public function beforeDelete() {
+        $notas = Nota::find()->where( [ 'tipo_nota_id' => $this->id ] )->all();
+        
+        if ( $notas != NULL || count($notas) > 0 ) {
+            throw new \Exception( 'El tipo de nota no puede eliminarse por que tiene notas asociadas.', 400 );
+        }
+
+        return true;
     }
 }
