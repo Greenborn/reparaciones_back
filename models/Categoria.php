@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use Yii\BadRequestHttpException;
+use app\models\Estado;
+use app\models\Nota;
 
 /**
  * This is the model class for table "categoria".
@@ -69,5 +72,19 @@ class Categoria extends \yii\db\ActiveRecord
 
     public function extraFields() {
         return [ 'estados' ];
+    }
+
+    public function beforeDelete() {
+        $estados = Estado::find()->where( [ 'categoria_id' => $this->id ] )->all();
+        if ( $estados != NULL ) {
+            throw new \Exception( 'La categoría no puede eliminarse por que tiene estados asociados.', 400 );
+        }
+
+        $nota = Nota::find()->where( [ 'categoria_id' => $this->id ] )->all();
+        if ( $nota != NULL ){
+            throw new \Exception( 'La categoría no puede eliminarse por que tiene notas asociadas.', 400 );
+        }
+
+        return true;
     }
 }
