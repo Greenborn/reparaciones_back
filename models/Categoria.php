@@ -66,4 +66,8 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Nota::className(), ['categoria_id' => 'id']);
     }
+
+    public function extraFields() {
+        return [ 'estados' ];
+    }
 }
