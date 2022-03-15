@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Nota;
 
 /**
  * This is the model class for table "estado".
@@ -67,5 +68,15 @@ class Estado extends \yii\db\ActiveRecord
     public function getNotas()
     {
         return $this->hasMany(Nota::className(), ['estado_id' => 'id']);
+    }
+
+    public function beforeDelete() {
+        $notas = Nota::find()->where( [ 'estado_id' => $this->id ] )->all();
+        
+        if ( $notas != NULL || count($notas) > 0 ) {
+            throw new \Exception( 'El estado no puede eliminarse por que tiene notas asociadas.', 400 );
+        }
+
+        return true;
     }
 }
