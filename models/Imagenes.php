@@ -29,7 +29,6 @@ class Imagenes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url'], 'required'],
             [['url'], 'string'],
             [['id_nota'], 'integer'],
             [['id_nota'], 'exist', 'skipOnError' => true, 'targetClass' => Nota::className(), 'targetAttribute' => ['id_nota' => 'id']],
@@ -58,19 +57,23 @@ class Imagenes extends \yii\db\ActiveRecord
     }
 
     public function beforeSave($insert) {
-        if (!$insert){
-            $params = Yii::$app->getRequest()->getBodyParams();
-            $date   = new \DateTime();
-            if (isset($params['base64_edit'])){
-                if (!empty($this->url) && file_exists($this->url)) {
-                    unlink($this->url);
-                    // echo 'se elimnó la img';
-                }
-
-                $file_name = $this->url;
-                $this->base64_to_file($params['base64_edit'], $file_name);
+        
+        $params = Yii::$app->getRequest()->getBodyParams();
+        $date   = new \DateTime();
+        if (isset($params['base64_edit'])){
+            if ($this->url == '-'){
+                $this->url = 'public/images/'.$date->getTimestamp().$params['name'];
             }
+
+            if (!empty($this->url) && file_exists($this->url)) {
+                unlink($this->url);
+                // echo 'se elimnó la img';
+            }
+
+            $file_name = $this->url;
+            $this->base64_to_file($params['base64_edit'], $file_name);
         }
+        
         
         return parent::beforeSave($insert);
     }
